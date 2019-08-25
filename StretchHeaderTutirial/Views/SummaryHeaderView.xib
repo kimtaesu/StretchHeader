@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="aYa-SC-vPM" customClass="SummaryHeaderView" customModule="StretchHeaderTutirial" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="740" height="391"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VXO-d3-YCg">
+                    <rect key="frame" x="0.0" y="44" width="740" height="313"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zea-eR-03T">
+                            <rect key="frame" x="349" y="0.0" width="42" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWz-Cx-4Bc">
+                            <rect key="frame" x="349" y="29" width="42" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LSV-XB-Ied">
+                            <rect key="frame" x="349" y="59" width="42" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="aWz-Cx-4Bc" firstAttribute="centerX" secondItem="VXO-d3-YCg" secondAttribute="centerX" id="9EH-PV-KSy"/>
+                        <constraint firstItem="LSV-XB-Ied" firstAttribute="centerX" secondItem="VXO-d3-YCg" secondAttribute="centerX" id="Sns-9b-1nl"/>
+                        <constraint firstItem="Zea-eR-03T" firstAttribute="top" secondItem="VXO-d3-YCg" secondAttribute="top" id="YCF-WX-2Oj"/>
+                        <constraint firstItem="LSV-XB-Ied" firstAttribute="top" secondItem="aWz-Cx-4Bc" secondAttribute="bottom" constant="9" id="lTH-eS-wR1"/>
+                        <constraint firstItem="Zea-eR-03T" firstAttribute="centerX" secondItem="VXO-d3-YCg" secondAttribute="centerX" id="qxL-k3-qrf"/>
+                        <constraint firstItem="aWz-Cx-4Bc" firstAttribute="top" secondItem="Zea-eR-03T" secondAttribute="bottom" constant="8" id="yVr-cm-zPK"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <constraints>
+                <constraint firstItem="VXO-d3-YCg" firstAttribute="leading" secondItem="DPA-YE-0do" secondAttribute="leading" id="B7w-aC-WQe"/>
+                <constraint firstItem="VXO-d3-YCg" firstAttribute="centerX" secondItem="DPA-YE-0do" secondAttribute="centerX" id="Q1g-1z-nZv"/>
+                <constraint firstItem="VXO-d3-YCg" firstAttribute="top" secondItem="DPA-YE-0do" secondAttribute="top" id="fXs-fo-Qvt"/>
+                <constraint firstItem="VXO-d3-YCg" firstAttribute="centerY" secondItem="DPA-YE-0do" secondAttribute="centerY" id="y5Y-lj-jPa"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="DPA-YE-0do"/>
+            <connections>
+                <outlet property="city" destination="Zea-eR-03T" id="pTt-FV-ib4"/>
+                <outlet property="temperature" destination="LSV-XB-Ied" id="hKm-HT-mA0"/>
+                <outlet property="weatherDesc" destination="aWz-Cx-4Bc" id="Ex2-Mm-KDV"/>
+            </connections>
+            <point key="canvasLocation" x="210.1449275362319" y="161.71875"/>
+        </collectionReusableView>
+    </objects>
+</document>
