@@ -9,23 +9,47 @@
 import UIKit
 
 
-enum CellType: String, CellTag {
-    case dayOfWeek
-    case timeHorizontal
+enum CellType {
+    case dayOfWeek(WeatherDaySlotSection)
+    case timeHorizontal(WeatherTimeSlotSection)
+}
 
-    var tag: Int {
+extension CellType: CellAdapter {
+
+    var itemCount: Int {
         switch self {
-        case .dayOfWeek:
-            return 0
+        case .dayOfWeek(let section):
+            return section.items.count
         case .timeHorizontal:
             return 1
+        }
+    }
+    var identifier: String {
+        switch self {
+        case .dayOfWeek:
+            return DayOfWeekWeatherCell.swiftIdentifier
+        case .timeHorizontal:
+            return TimeSlotHorizontalContainerCell.swiftIdentifier
+        }
+    }
+
+    func item<T: Equatable>(for index: Int) -> T? {
+        switch self {
+        case .dayOfWeek(let section):
+            return section.items[index] as? T
+        case .timeHorizontal(let section):
+            return section.items[index] as? T
         }
     }
 }
 
 class ViewController: UIViewController {
+    var sections: [CellType] = [
+            .timeHorizontal(WeatherTimeSlotSection(items: WeatherTimeSlot.sample)),
+            .dayOfWeek(WeatherDaySlotSection(items: WeatherDaySlot.sample))
 
-    var items: [DayTemperature] = DayTemperature.sample
+    ]
+    var timeSlots: [WeatherTimeSlot] = WeatherTimeSlot.sample
     var header: WeatherHeader = WeatherHeader(city: "Chicago", weatherDesc: "sunny", temperature: 20)
 
     let collectionView: UICollectionView = {
@@ -38,7 +62,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.register(DayOfWeekWeatherCell.self)
-        collectionView.register(TimeHorizontalCell.self)
+        collectionView.register(TimeSlotHorizontalContainerCell.self)
         collectionView.register(SummaryHeaderView.self, kind: UICollectionView.elementKindSectionHeader)
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -48,16 +72,24 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        let contentWidth = collectionView.safeAreaLayoutGuide.layoutFrame.width
-
-        return CGSize(width: contentWidth, height: 130)
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        referenceSizeForHeaderInSection section: Int
+    ) -> CGSize {
+        let section = self.sections[section]
+        switch section.identifier {
+        case TimeSlotHorizontalContainerCell.swiftIdentifier:
+            return CGSize(width: collectionView.contentSize.width, height: 130)
+        default:
+            return .zero
+        }
     }
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        return sections.count
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items.count
+        return self.sections[section].itemCount
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -78,18 +110,24 @@ extension ViewController: UICollectionViewDataSource {
         }
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let section = self.sections[indexPath.section]
+        print("cellForItemAt: \(section.identifier)")
+        switch section.identifier {
+        case DayOfWeekWeatherCell.swiftIdentifier:
+            guard let cell = collectionView.dequeueReusableCell(DayOfWeekWeatherCell.self, for: indexPath),
+                let item: WeatherDaySlot = section.item(for: indexPath.item)
+                else { return UICollectionViewCell() }
 
-        switch indexPath.section {
-        case CellType.dayOfWeek.tag:
-            guard let cell = collectionView.dequeueReusableCell(DayOfWeekWeatherCell.self, for: indexPath) else { return UICollectionViewCell() }
-            let item = items[indexPath.row]
             cell.weatherView.dayOfWeekName.text = item.dayOfWeek.name
             cell.weatherView.highest.text = String(item.highestTemperature)
             cell.weatherView.lowest.text = String(item.lowestTemperature)
             cell.weatherView.representImage.image = UIImage(named: item.imageName)
             return cell
-        case CellType.timeHorizontal.tag:
-            break
+        case TimeSlotHorizontalContainerCell.swiftIdentifier:
+            guard let cell = collectionView.dequeueReusableCell(TimeSlotHorizontalContainerCell.self, for: indexPath)
+                else { return UICollectionViewCell() }
+            cell.reloadData(items: self.timeSlots)
+            return cell
         default: break
         }
         return UICollectionViewCell()
