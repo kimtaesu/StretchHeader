@@ -13,9 +13,12 @@ class SummaryHeaderView: UICollectionReusableView, NibForName {
     @IBOutlet weak var city: UILabel!
     @IBOutlet weak var weatherDesc: UILabel!
     @IBOutlet weak var temperature: UILabel!
+    @IBOutlet weak var container: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        city.apply(.headerTtitle)
+        temperature.apply(.headerTtitle)
+        weatherDesc.apply(.headerSubTtitle)
     }
-    
 }

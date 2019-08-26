@@ -59,8 +59,15 @@ class ViewController: UIViewController {
         return collectionView
     }()
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        let cloudLayer = CALayer()
+        cloudLayer.fillCloudImage(self.view.bounds)
+        self.view.layer.addSublayer(cloudLayer)
+        collectionView.backgroundColor = .clear
         collectionView.register(DayOfWeekWeatherCell.self)
         collectionView.register(TimeSlotHorizontalContainerCell.self)
         collectionView.register(SummaryHeaderView.self, kind: UICollectionView.elementKindSectionHeader)
@@ -118,14 +125,16 @@ extension ViewController: UICollectionViewDataSource {
                 let item: WeatherDaySlot = section.item(for: indexPath.item)
                 else { return UICollectionViewCell() }
 
-            cell.weatherView.dayOfWeekName.text = item.dayOfWeek.name
-            cell.weatherView.highest.text = String(item.highestTemperature)
-            cell.weatherView.lowest.text = String(item.lowestTemperature)
+            cell.weatherView.configCell(slot: item)
+            cell.weatherView.backgroundColor = .clear
+            cell.backgroundColor = .clear
+            cell.weatherView.backgroundColorClear()
             cell.weatherView.representImage.image = UIImage(named: item.imageName)
             return cell
         case TimeSlotHorizontalContainerCell.swiftIdentifier:
             guard let cell = collectionView.dequeueReusableCell(TimeSlotHorizontalContainerCell.self, for: indexPath)
                 else { return UICollectionViewCell() }
+            cell.slotCollectionView.backgroundColor = .clear
             cell.reloadData(items: self.timeSlots)
             return cell
         default: break
@@ -138,5 +147,14 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return collectionView.getSingleWidth(height: 130)
+    }
+}
+
+extension CALayer {
+    func fillCloudImage(_ rect: CGRect) {
+        let bgImage = #imageLiteral(resourceName: "bg_weather")
+        self.frame = rect
+        self.contents = bgImage.cgImage
+        self.contentsGravity = .resizeAspectFill
     }
 }

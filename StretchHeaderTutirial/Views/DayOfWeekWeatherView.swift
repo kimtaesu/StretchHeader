@@ -31,4 +31,17 @@ class DayOfWeekWeatherView: UIView, NibLoadable {
         setupFromNib()
         representImage.contentMode = .scaleAspectFit
     }
+
+    func configCell(slot: WeatherDaySlot) {
+        self.highest.text = String(slot.highestTemperature)
+        self.lowest.text = String(slot.lowestTemperature)
+        self.dayOfWeekName.text = slot.dayOfWeek.name
+        self.representImage.image = UIImage(named: slot.imageName)
+    }
+
+    func backgroundColorClear() {
+        container.backgroundColor = .clear
+        stackView.backgroundColor = .clear
+    }
+
 }

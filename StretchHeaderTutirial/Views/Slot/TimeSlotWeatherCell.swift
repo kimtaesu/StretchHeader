@@ -20,7 +20,6 @@ class TimeSlotWeatherCell: UICollectionViewCell, NibForName {
     }
     override func prepareForInterfaceBuilder() {
         temperature.text = "20"
-        temperature.textAlignment = .center
         setNeedsLayout()
     }
 }

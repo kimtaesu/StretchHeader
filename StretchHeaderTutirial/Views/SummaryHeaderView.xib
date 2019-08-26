@@ -16,44 +16,32 @@
             <rect key="frame" x="0.0" y="0.0" width="740" height="391"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VXO-d3-YCg">
-                    <rect key="frame" x="0.0" y="44" width="740" height="313"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zea-eR-03T">
-                            <rect key="frame" x="349" y="0.0" width="42" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWz-Cx-4Bc">
-                            <rect key="frame" x="349" y="29" width="42" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LSV-XB-Ied">
-                            <rect key="frame" x="349" y="59" width="42" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstItem="aWz-Cx-4Bc" firstAttribute="centerX" secondItem="VXO-d3-YCg" secondAttribute="centerX" id="9EH-PV-KSy"/>
-                        <constraint firstItem="LSV-XB-Ied" firstAttribute="centerX" secondItem="VXO-d3-YCg" secondAttribute="centerX" id="Sns-9b-1nl"/>
-                        <constraint firstItem="Zea-eR-03T" firstAttribute="top" secondItem="VXO-d3-YCg" secondAttribute="top" id="YCF-WX-2Oj"/>
-                        <constraint firstItem="LSV-XB-Ied" firstAttribute="top" secondItem="aWz-Cx-4Bc" secondAttribute="bottom" constant="9" id="lTH-eS-wR1"/>
-                        <constraint firstItem="Zea-eR-03T" firstAttribute="centerX" secondItem="VXO-d3-YCg" secondAttribute="centerX" id="qxL-k3-qrf"/>
-                        <constraint firstItem="aWz-Cx-4Bc" firstAttribute="top" secondItem="Zea-eR-03T" secondAttribute="bottom" constant="8" id="yVr-cm-zPK"/>
-                    </constraints>
-                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zea-eR-03T">
+                    <rect key="frame" x="349" y="44" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWz-Cx-4Bc">
+                    <rect key="frame" x="349" y="77" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LSV-XB-Ied">
+                    <rect key="frame" x="349" y="110" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <constraints>
-                <constraint firstItem="VXO-d3-YCg" firstAttribute="leading" secondItem="DPA-YE-0do" secondAttribute="leading" id="B7w-aC-WQe"/>
-                <constraint firstItem="VXO-d3-YCg" firstAttribute="centerX" secondItem="DPA-YE-0do" secondAttribute="centerX" id="Q1g-1z-nZv"/>
-                <constraint firstItem="VXO-d3-YCg" firstAttribute="top" secondItem="DPA-YE-0do" secondAttribute="top" id="fXs-fo-Qvt"/>
-                <constraint firstItem="VXO-d3-YCg" firstAttribute="centerY" secondItem="DPA-YE-0do" secondAttribute="centerY" id="y5Y-lj-jPa"/>
+                <constraint firstItem="LSV-XB-Ied" firstAttribute="top" secondItem="aWz-Cx-4Bc" secondAttribute="bottom" constant="12" id="Hxi-vG-Fzg"/>
+                <constraint firstItem="aWz-Cx-4Bc" firstAttribute="centerX" secondItem="DPA-YE-0do" secondAttribute="centerX" id="MCX-xC-HPw"/>
+                <constraint firstItem="aWz-Cx-4Bc" firstAttribute="top" secondItem="Zea-eR-03T" secondAttribute="bottom" constant="12" id="Qib-Fd-oh6"/>
+                <constraint firstItem="Zea-eR-03T" firstAttribute="centerX" secondItem="DPA-YE-0do" secondAttribute="centerX" id="Zjp-dq-RHT"/>
+                <constraint firstItem="Zea-eR-03T" firstAttribute="top" secondItem="DPA-YE-0do" secondAttribute="top" id="ggc-kv-37h"/>
+                <constraint firstItem="LSV-XB-Ied" firstAttribute="centerX" secondItem="DPA-YE-0do" secondAttribute="centerX" id="hZ4-jr-QGd"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="DPA-YE-0do"/>
             <connections>

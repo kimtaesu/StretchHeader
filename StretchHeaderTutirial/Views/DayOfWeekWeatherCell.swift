@@ -11,4 +11,8 @@ import UIKit
 class DayOfWeekWeatherCell: UICollectionViewCell, NibForName  {
     
     @IBOutlet weak var weatherView: DayOfWeekWeatherView!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
 }

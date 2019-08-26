@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BD573BFA23136054009EB4F3 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD573BF923136054009EB4F3 /* Theme.swift */; };
+		BD573BFD231361BD009EB4F3 /* ViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD573BFC231361BD009EB4F3 /* ViewStyle.swift */; };
+		BD573BFF231361D9009EB4F3 /* UILabel+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD573BFE231361D9009EB4F3 /* UILabel+Style.swift */; };
 		BD650E2C2311F01C002E7A29 /* SummaryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD650E2B2311F01C002E7A29 /* SummaryHeaderView.swift */; };
 		BD650E2E2311F022002E7A29 /* SummaryHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD650E2D2311F022002E7A29 /* SummaryHeaderView.xib */; };
 		BD650E302311F215002E7A29 /* DayOfWeekWeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD650E2F2311F215002E7A29 /* DayOfWeekWeatherCell.swift */; };
@@ -25,6 +28,7 @@
 		BD650E54231238DC002E7A29 /* WeatherTimeSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD650E53231238DC002E7A29 /* WeatherTimeSlot.swift */; };
 		BD650E5823125744002E7A29 /* Sections.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD650E5723125744002E7A29 /* Sections.swift */; };
 		BD650E5A23125757002E7A29 /* CellAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD650E5923125757002E7A29 /* CellAdapter.swift */; };
+		BD650E5C2312580E002E7A29 /* UILabel+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD650E5B2312580E002E7A29 /* UILabel+Size.swift */; };
 		BDAF2F5B231199EE0082D3AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAF2F5A231199EE0082D3AC /* AppDelegate.swift */; };
 		BDAF2F5D231199EE0082D3AC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDAF2F5C231199EE0082D3AC /* ViewController.swift */; };
 		BDAF2F60231199EE0082D3AC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BDAF2F5E231199EE0082D3AC /* Main.storyboard */; };
@@ -49,6 +53,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BD573BF923136054009EB4F3 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		BD573BFC231361BD009EB4F3 /* ViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewStyle.swift; sourceTree = "<group>"; };
+		BD573BFE231361D9009EB4F3 /* UILabel+Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Style.swift"; sourceTree = "<group>"; };
 		BD650E2B2311F01C002E7A29 /* SummaryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryHeaderView.swift; sourceTree = "<group>"; };
 		BD650E2D2311F022002E7A29 /* SummaryHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SummaryHeaderView.xib; sourceTree = "<group>"; };
 		BD650E2F2311F215002E7A29 /* DayOfWeekWeatherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfWeekWeatherCell.swift; sourceTree = "<group>"; };
@@ -67,6 +74,7 @@
 		BD650E53231238DC002E7A29 /* WeatherTimeSlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTimeSlot.swift; sourceTree = "<group>"; };
 		BD650E5723125744002E7A29 /* Sections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sections.swift; sourceTree = "<group>"; };
 		BD650E5923125757002E7A29 /* CellAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellAdapter.swift; sourceTree = "<group>"; };
+		BD650E5B2312580E002E7A29 /* UILabel+Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Size.swift"; sourceTree = "<group>"; };
 		BDAF2F57231199EE0082D3AC /* StretchHeaderTutirial.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StretchHeaderTutirial.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BDAF2F5A231199EE0082D3AC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BDAF2F5C231199EE0082D3AC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -102,12 +110,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BD573BFB231361B5009EB4F3 /* Style */ = {
+			isa = PBXGroup;
+			children = (
+				BD573BFC231361BD009EB4F3 /* ViewStyle.swift */,
+				BD573BFE231361D9009EB4F3 /* UILabel+Style.swift */,
+			);
+			path = Style;
+			sourceTree = "<group>";
+		};
 		BD650E392312032D002E7A29 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				BD650E3A23120338002E7A29 /* UIImage+Resize.swift */,
 				BD650E3C23120ACA002E7A29 /* UIView+AutoLayout.swift */,
 				BD650E3E23122F18002E7A29 /* UICollectionView+Cell.swift */,
+				BD650E5B2312580E002E7A29 /* UILabel+Size.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -165,6 +183,7 @@
 		BDAF2F59231199EE0082D3AC /* StretchHeaderTutirial */ = {
 			isa = PBXGroup;
 			children = (
+				BD573BFB231361B5009EB4F3 /* Style */,
 				BD650E4723123239002E7A29 /* Common */,
 				BD650E40231231BF002E7A29 /* Model */,
 				BD650E392312032D002E7A29 /* Extensions */,
@@ -177,6 +196,7 @@
 				BDAF2F66231199EF0082D3AC /* LaunchScreen.storyboard */,
 				BDAF2F69231199EF0082D3AC /* Info.plist */,
 				BDAF2F61231199EE0082D3AC /* StretchHeaderTutirial.xcdatamodeld */,
+				BD573BF923136054009EB4F3 /* Theme.swift */,
 			);
 			path = StretchHeaderTutirial;
 			sourceTree = "<group>";
@@ -325,14 +345,18 @@
 				BD650E302311F215002E7A29 /* DayOfWeekWeatherCell.swift in Sources */,
 				BDAF2F842311A2B50082D3AC /* NibForName.swift in Sources */,
 				BD650E3B23120338002E7A29 /* UIImage+Resize.swift in Sources */,
+				BD573BFD231361BD009EB4F3 /* ViewStyle.swift in Sources */,
 				BD650E342311F483002E7A29 /* NibLoadable.swift in Sources */,
 				BD650E46231231EB002E7A29 /* DayOfWeek.swift in Sources */,
 				BDAF2F7F23119F8F0082D3AC /* DayOfWeekWeatherView.swift in Sources */,
 				BD650E3F23122F18002E7A29 /* UICollectionView+Cell.swift in Sources */,
 				BDAF2F63231199EE0082D3AC /* StretchHeaderTutirial.xcdatamodeld in Sources */,
+				BD650E5C2312580E002E7A29 /* UILabel+Size.swift in Sources */,
 				BD650E5A23125757002E7A29 /* CellAdapter.swift in Sources */,
 				BD650E5823125744002E7A29 /* Sections.swift in Sources */,
 				BD650E44231231D5002E7A29 /* WeatherDaySlot.swift in Sources */,
+				BD573BFF231361D9009EB4F3 /* UILabel+Style.swift in Sources */,
+				BD573BFA23136054009EB4F3 /* Theme.swift in Sources */,
 				BD650E54231238DC002E7A29 /* WeatherTimeSlot.swift in Sources */,
 				BDAF2F862311A8710082D3AC /* TimeSlotHorizontalContainerCell.swift in Sources */,
 				BDAF2F5B231199EE0082D3AC /* AppDelegate.swift in Sources */,
