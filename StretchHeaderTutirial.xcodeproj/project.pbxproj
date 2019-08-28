@@ -10,6 +10,9 @@
 		BD573BFA23136054009EB4F3 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD573BF923136054009EB4F3 /* Theme.swift */; };
 		BD573BFD231361BD009EB4F3 /* ViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD573BFC231361BD009EB4F3 /* ViewStyle.swift */; };
 		BD573BFF231361D9009EB4F3 /* UILabel+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD573BFE231361D9009EB4F3 /* UILabel+Style.swift */; };
+		BD61992F2314ACB300EDFDCF /* CustomLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD61992E2314ACB300EDFDCF /* CustomLayout.swift */; };
+		BD6199312314ACCA00EDFDCF /* CustomLayoutSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6199302314ACCA00EDFDCF /* CustomLayoutSettings.swift */; };
+		BD6199332314ACD700EDFDCF /* CustomLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD6199322314ACD700EDFDCF /* CustomLayoutAttributes.swift */; };
 		BD650E2C2311F01C002E7A29 /* SummaryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD650E2B2311F01C002E7A29 /* SummaryHeaderView.swift */; };
 		BD650E2E2311F022002E7A29 /* SummaryHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BD650E2D2311F022002E7A29 /* SummaryHeaderView.xib */; };
 		BD650E302311F215002E7A29 /* DayOfWeekWeatherCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD650E2F2311F215002E7A29 /* DayOfWeekWeatherCell.swift */; };
@@ -56,6 +59,9 @@
 		BD573BF923136054009EB4F3 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		BD573BFC231361BD009EB4F3 /* ViewStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewStyle.swift; sourceTree = "<group>"; };
 		BD573BFE231361D9009EB4F3 /* UILabel+Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Style.swift"; sourceTree = "<group>"; };
+		BD61992E2314ACB300EDFDCF /* CustomLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLayout.swift; sourceTree = "<group>"; };
+		BD6199302314ACCA00EDFDCF /* CustomLayoutSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLayoutSettings.swift; sourceTree = "<group>"; };
+		BD6199322314ACD700EDFDCF /* CustomLayoutAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLayoutAttributes.swift; sourceTree = "<group>"; };
 		BD650E2B2311F01C002E7A29 /* SummaryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryHeaderView.swift; sourceTree = "<group>"; };
 		BD650E2D2311F022002E7A29 /* SummaryHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SummaryHeaderView.xib; sourceTree = "<group>"; };
 		BD650E2F2311F215002E7A29 /* DayOfWeekWeatherCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfWeekWeatherCell.swift; sourceTree = "<group>"; };
@@ -162,6 +168,16 @@
 			path = Slot;
 			sourceTree = "<group>";
 		};
+		BD65CCDF231363A600C75336 /* CustomLayout */ = {
+			isa = PBXGroup;
+			children = (
+				BD61992E2314ACB300EDFDCF /* CustomLayout.swift */,
+				BD6199302314ACCA00EDFDCF /* CustomLayoutSettings.swift */,
+				BD6199322314ACD700EDFDCF /* CustomLayoutAttributes.swift */,
+			);
+			path = CustomLayout;
+			sourceTree = "<group>";
+		};
 		BDAF2F4E231199EE0082D3AC = {
 			isa = PBXGroup;
 			children = (
@@ -183,6 +199,7 @@
 		BDAF2F59231199EE0082D3AC /* StretchHeaderTutirial */ = {
 			isa = PBXGroup;
 			children = (
+				BD65CCDF231363A600C75336 /* CustomLayout */,
 				BD573BFB231361B5009EB4F3 /* Style */,
 				BD650E4723123239002E7A29 /* Common */,
 				BD650E40231231BF002E7A29 /* Model */,
@@ -340,6 +357,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BDAF2F5D231199EE0082D3AC /* ViewController.swift in Sources */,
+				BD61992F2314ACB300EDFDCF /* CustomLayout.swift in Sources */,
+				BD6199332314ACD700EDFDCF /* CustomLayoutAttributes.swift in Sources */,
 				BD650E42231231C4002E7A29 /* WeatherHeader.swift in Sources */,
 				BD650E4F23123540002E7A29 /* TimeSlotWeatherCell.swift in Sources */,
 				BD650E302311F215002E7A29 /* DayOfWeekWeatherCell.swift in Sources */,
@@ -361,6 +380,7 @@
 				BDAF2F862311A8710082D3AC /* TimeSlotHorizontalContainerCell.swift in Sources */,
 				BDAF2F5B231199EE0082D3AC /* AppDelegate.swift in Sources */,
 				BD650E3D23120ACA002E7A29 /* UIView+AutoLayout.swift in Sources */,
+				BD6199312314ACCA00EDFDCF /* CustomLayoutSettings.swift in Sources */,
 				BD650E4B23123448002E7A29 /* SectionModelType.swift in Sources */,
 				BD650E2C2311F01C002E7A29 /* SummaryHeaderView.swift in Sources */,
 			);

@@ -9,12 +9,13 @@
 import Foundation
 
 struct WeatherTimeSlot: Equatable, IdentifiableType {
+    let id: String = UUID().uuidString
     let time: String
     let imageNmae: String
     let temperature: String
     
     var identity: String {
-        return time
+        return id
     }
 }
 

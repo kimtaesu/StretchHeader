@@ -52,18 +52,25 @@ class ViewController: UIViewController {
     var timeSlots: [WeatherTimeSlot] = WeatherTimeSlot.sample
     var header: WeatherHeader = WeatherHeader(city: "Chicago", weatherDesc: "sunny", temperature: 20)
 
-    let collectionView: UICollectionView = {
-        let flowLayout = UICollectionViewFlowLayout()
+    @IBOutlet weak var collectionView: UICollectionView!
+    private lazy var flowLayout: CustomLayout = {
+        let flowLayout = CustomLayout()
         flowLayout.scrollDirection = .vertical
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-        return collectionView
+        return flowLayout
     }()
+    
+//
+//    lazy var collectionView: UICollectionView = {
+//        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+//        return collectionView
+//    }()
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         let cloudLayer = CALayer()
         cloudLayer.fillCloudImage(self.view.bounds)
         self.view.layer.addSublayer(cloudLayer)
@@ -71,10 +78,13 @@ class ViewController: UIViewController {
         collectionView.register(DayOfWeekWeatherCell.self)
         collectionView.register(TimeSlotHorizontalContainerCell.self)
         collectionView.register(SummaryHeaderView.self, kind: UICollectionView.elementKindSectionHeader)
+        collectionView.collectionViewLayout = flowLayout
         collectionView.dataSource = self
         collectionView.delegate = self
         view.addSubview(collectionView)
-        collectionView.pinEdges(to: view)
+        
+        flowLayout.settings.isSectionHeadersSticky = true
+        flowLayout.settings.headerOverlayMaxAlphaValue = CGFloat(0.6)
     }
 }
 
@@ -87,7 +97,7 @@ extension ViewController: UICollectionViewDataSource {
         let section = self.sections[section]
         switch section.identifier {
         case TimeSlotHorizontalContainerCell.swiftIdentifier:
-            return CGSize(width: collectionView.contentSize.width, height: 130)
+            return CGSize(width: collectionView.rowWidth, height: 200)
         default:
             return .zero
         }
@@ -118,7 +128,6 @@ extension ViewController: UICollectionViewDataSource {
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let section = self.sections[indexPath.section]
-        print("cellForItemAt: \(section.identifier)")
         switch section.identifier {
         case DayOfWeekWeatherCell.swiftIdentifier:
             guard let cell = collectionView.dequeueReusableCell(DayOfWeekWeatherCell.self, for: indexPath),
@@ -126,9 +135,8 @@ extension ViewController: UICollectionViewDataSource {
                 else { return UICollectionViewCell() }
 
             cell.weatherView.configCell(slot: item)
-            cell.weatherView.backgroundColor = .clear
             cell.backgroundColor = .clear
-            cell.weatherView.backgroundColorClear()
+            cell.weatherView.clearBackgroundcolor()
             cell.weatherView.representImage.image = UIImage(named: item.imageName)
             return cell
         case TimeSlotHorizontalContainerCell.swiftIdentifier:
@@ -146,7 +154,17 @@ extension ViewController: UICollectionViewDataSource {
 extension ViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return collectionView.getSingleWidth(height: 130)
+        let section = self.sections[indexPath.section]
+        print("sizeForItemAt: \(section.identifier)")
+        switch section.identifier {
+        case DayOfWeekWeatherCell.swiftIdentifier:
+            return CGSize(width: collectionView.rowWidth, height: 50)
+        case TimeSlotHorizontalContainerCell.swiftIdentifier:
+            return CGSize(width: collectionView.rowWidth, height: 130)
+        default: break
+
+        }
+        return .zero
     }
 }
 

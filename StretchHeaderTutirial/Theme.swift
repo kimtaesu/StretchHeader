@@ -10,19 +10,16 @@ import UIKit
 
 struct Theme {
 
-    static var labelTextColor: UIColor?
 
     static public func defaultTheme() {
-        self.labelTextColor = .darkGray
-        updateDisplay()
+        let tintColor = UIColor.darkGray
+        UILabel.appearance().textColor = tintColor
+        UIImageView.appearance().tintColor = tintColor
     }
 
     static public func darkTheme() {
-        self.labelTextColor = .white
-        updateDisplay()
-    }
-
-    static public func updateDisplay() {
-        UILabel.appearance().textColor = self.labelTextColor
+        let tintColor = UIColor.white
+        UILabel.appearance().textColor = tintColor
+        UIImageView.appearance().tintColor = tintColor
     }
 }

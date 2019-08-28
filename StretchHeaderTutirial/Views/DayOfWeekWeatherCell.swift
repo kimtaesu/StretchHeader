@@ -12,7 +12,18 @@ class DayOfWeekWeatherCell: UICollectionViewCell, NibForName  {
     
     @IBOutlet weak var weatherView: DayOfWeekWeatherView!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    func clearBackgroundcolor() {
+        weatherView.clearBackgroundcolor()
+        self.backgroundColor = .clear
+    }
+    // MARK: - View Life Cycle
+    override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
+        super.apply(layoutAttributes)
+        
+        guard let attributes = layoutAttributes as? CustomLayoutAttributes else {
+            return
+        }
+        
+        weatherView.transform = attributes.parallax
     }
 }

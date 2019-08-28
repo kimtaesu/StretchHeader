@@ -18,8 +18,10 @@ class TimeSlotWeatherCell: UICollectionViewCell, NibForName {
         super.awakeFromNib()
         temperature.textAlignment = .center
     }
-    override func prepareForInterfaceBuilder() {
-        temperature.text = "20"
-        setNeedsLayout()
+    
+    func configCell(item: WeatherTimeSlot) {
+        representImage.image = UIImage(named: item.imageNmae)?.withRenderingMode(.alwaysTemplate)
+        temperature.text = item.temperature
+        time.text = item.time
     }
 }

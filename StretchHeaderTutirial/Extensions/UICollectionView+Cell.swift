@@ -29,15 +29,18 @@ extension UICollectionView {
         return dequeueReusableCell(withReuseIdentifier: reusableCell.swiftIdentifier, for: indexPath) as? T
     }
     
-    func getSingleWidth(height: CGFloat) -> CGSize {
-        guard let collectionViewLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return .zero }
+    var rowWidth: CGFloat {
+        guard let collectionViewLayout = collectionViewLayout as? UICollectionViewFlowLayout else {
+            return safeAreaLayoutGuide.layoutFrame.width
+                - contentInset.left
+                - contentInset.right
+        }
+        
         let sectionInset = collectionViewLayout.sectionInset
-        let contentWidth = safeAreaLayoutGuide.layoutFrame.width
+        return safeAreaLayoutGuide.layoutFrame.width
             - sectionInset.left
             - sectionInset.right
             - contentInset.left
             - contentInset.right
-        
-        return CGSize(width: contentWidth, height: height)
     }
 }

@@ -21,4 +21,14 @@ class SummaryHeaderView: UICollectionReusableView, NibForName {
         temperature.apply(.headerTtitle)
         weatherDesc.apply(.headerSubTtitle)
     }
+    
+    override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
+        super.apply(layoutAttributes)
+        guard let layoutAttributes = layoutAttributes as? CustomLayoutAttributes else {
+            return
+        }
+        print("!!!!!!! apply \(layoutAttributes.headerOverlayAlpha)")
+        temperature.alpha = layoutAttributes.headerOverlayAlpha
+        weatherDesc.alpha = layoutAttributes.headerOverlayAlpha
+    }
 }
