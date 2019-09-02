@@ -18,8 +18,8 @@ extension CellType: CellAdapter {
 
     var itemCount: Int {
         switch self {
-        case .dayOfWeek(let section):
-            return section.items.count
+        case .dayOfWeek:
+            return 1
         case .timeHorizontal:
             return 1
         }
@@ -27,7 +27,7 @@ extension CellType: CellAdapter {
     var identifier: String {
         switch self {
         case .dayOfWeek:
-            return DayOfWeekWeatherCell.swiftIdentifier
+            return DayOfWeekVerticalContainerCell.swiftIdentifier
         case .timeHorizontal:
             return TimeSlotHorizontalContainerCell.swiftIdentifier
         }
@@ -41,9 +41,26 @@ extension CellType: CellAdapter {
             return section.items[index] as? T
         }
     }
+    func items<T: Equatable>() -> [T] {
+        switch self {
+        case .dayOfWeek(let section):
+            return section.items as? [T] ?? []
+        case .timeHorizontal(let section):
+            return section.items as? [T] ?? []
+        }
+    }
+}
+
+struct NotificationNames {
+    static let setOffset = "setOffset"
 }
 
 class ViewController: UIViewController {
+    
+    struct Metrics {
+        static let HeaderHeight: CGFloat = 250
+        static let HorizontalWeatherCellHeight: CGFloat = 130
+    }
     var sections: [CellType] = [
             .timeHorizontal(WeatherTimeSlotSection(items: WeatherTimeSlot.sample)),
             .dayOfWeek(WeatherDaySlotSection(items: WeatherDaySlot.sample))
@@ -58,46 +75,45 @@ class ViewController: UIViewController {
         flowLayout.scrollDirection = .vertical
         return flowLayout
     }()
-    
-//
-//    lazy var collectionView: UICollectionView = {
-//        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-//        return collectionView
-//    }()
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let cloudLayer = CALayer()
         cloudLayer.fillCloudImage(self.view.bounds)
         self.view.layer.addSublayer(cloudLayer)
         collectionView.backgroundColor = .clear
-        collectionView.register(DayOfWeekWeatherCell.self)
+        collectionView.register(DayOfWeekVerticalContainerCell.self)
         collectionView.register(TimeSlotHorizontalContainerCell.self)
         collectionView.register(SummaryHeaderView.self, kind: UICollectionView.elementKindSectionHeader)
         collectionView.collectionViewLayout = flowLayout
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.alwaysBounceVertical = false
         view.addSubview(collectionView)
-        
-        flowLayout.settings.isSectionHeadersSticky = true
-        flowLayout.settings.headerOverlayMaxAlphaValue = CGFloat(0.6)
+    }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let headerHeightMaxChange = Metrics.HorizontalWeatherCellHeight
+        var subOffset: CGFloat = 0
+        if offsetY > headerHeightMaxChange {
+            subOffset = offsetY - headerHeightMaxChange
+        } else {
+            subOffset = 0
+        }
+        NotificationCenter.default.post(name: Notification.Name(rawValue: NotificationNames.setOffset), object: subOffset)
     }
 }
 
 extension ViewController: UICollectionViewDataSource {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        referenceSizeForHeaderInSection section: Int
-    ) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let section = self.sections[section]
         switch section.identifier {
         case TimeSlotHorizontalContainerCell.swiftIdentifier:
-            return CGSize(width: collectionView.rowWidth, height: 200)
+            return CGSize(width: collectionView.rowWidth, height: Metrics.HeaderHeight)
         default:
             return .zero
         }
@@ -129,20 +145,16 @@ extension ViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let section = self.sections[indexPath.section]
         switch section.identifier {
-        case DayOfWeekWeatherCell.swiftIdentifier:
-            guard let cell = collectionView.dequeueReusableCell(DayOfWeekWeatherCell.self, for: indexPath),
-                let item: WeatherDaySlot = section.item(for: indexPath.item)
+        case DayOfWeekVerticalContainerCell.swiftIdentifier:
+            guard let cell = collectionView.dequeueReusableCell(DayOfWeekVerticalContainerCell.self, for: indexPath)
                 else { return UICollectionViewCell() }
 
-            cell.weatherView.configCell(slot: item)
+            cell.reloadData(items: section.items())
             cell.backgroundColor = .clear
-            cell.weatherView.clearBackgroundcolor()
-            cell.weatherView.representImage.image = UIImage(named: item.imageName)
             return cell
         case TimeSlotHorizontalContainerCell.swiftIdentifier:
             guard let cell = collectionView.dequeueReusableCell(TimeSlotHorizontalContainerCell.self, for: indexPath)
                 else { return UICollectionViewCell() }
-            cell.slotCollectionView.backgroundColor = .clear
             cell.reloadData(items: self.timeSlots)
             return cell
         default: break
@@ -151,16 +163,32 @@ extension ViewController: UICollectionViewDataSource {
     }
 }
 
-extension ViewController: UICollectionViewDelegateFlowLayout {
+extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegateLayoutAttribute {
+    func collectionView(_ collectionView: UICollectionView, kind: String, forSupplementary indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        switch kind {
+        case UICollectionView.elementKindSectionHeader:
+            return OverlayAlphaLayoutAttributes(forSupplementaryViewOfKind: kind, with: indexPath)
+        default: return nil
+        }
+    }
+    func collectionView(_ collectionView: UICollectionView, forItemAt indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        let section = self.sections[indexPath.section]
+        switch section.identifier {
+        case TimeSlotHorizontalContainerCell.swiftIdentifier:
+            return StickyLayoutAttributes(forCellWith: indexPath)
+        default:
+            return nil
+        }
+    }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let section = self.sections[indexPath.section]
         print("sizeForItemAt: \(section.identifier)")
         switch section.identifier {
-        case DayOfWeekWeatherCell.swiftIdentifier:
-            return CGSize(width: collectionView.rowWidth, height: 50)
+        case DayOfWeekVerticalContainerCell.swiftIdentifier:
+            return CGSize(width: collectionView.rowWidth, height: 700)
         case TimeSlotHorizontalContainerCell.swiftIdentifier:
-            return CGSize(width: collectionView.rowWidth, height: 130)
+            return CGSize(width: collectionView.rowWidth, height: Metrics.HorizontalWeatherCellHeight)
         default: break
 
         }

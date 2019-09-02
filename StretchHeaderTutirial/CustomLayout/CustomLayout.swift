@@ -46,22 +46,15 @@ final class CustomLayout: UICollectionViewFlowLayout {
         }
     }
 
-
-    override public class var layoutAttributesClass: AnyClass {
-        return CustomLayoutAttributes.self
-    }
-
     override public var collectionViewContentSize: CGSize {
         return CGSize(width: collectionViewWidth, height: contentHeight)
     }
 
     // MARK: - Properties
-    var settings = CustomLayoutSettings()
     private var oldBounds = CGRect.zero
     private var contentHeight = CGFloat()
-    private var cache = [Element: [IndexPath: CustomLayoutAttributes]]()
-    private var visibleLayoutAttributes = [CustomLayoutAttributes]()
-    private var zIndex = 0
+    private var cache = [Element: [IndexPath: UICollectionViewLayoutAttributes]]()
+    private var visibleLayoutAttributes = [UICollectionViewLayoutAttributes]()
 
     private var collectionViewHeight: CGFloat {
         return collectionView!.frame.height
@@ -71,46 +64,40 @@ final class CustomLayout: UICollectionViewFlowLayout {
         return collectionView!.frame.width
     }
 
-    private var menuSize: CGSize {
-        guard let menuSize = settings.menuSize else {
-            return .zero
-        }
-
-        return menuSize
-    }
-
     private var contentOffset: CGPoint {
         return collectionView!.contentOffset
     }
+    var stickyOffset: CGFloat = 0
 }
 
 // MARK: - LAYOUT CORE PROCESS
 extension CustomLayout {
 
     override public func prepare() {
-        guard let collectionView = collectionView
-//            cache.isEmpty
-            else {
-                return
-        }
+        guard let collectionView = collectionView,
+            cache.isEmpty
+            else { return }
 
         prepareCache()
         contentHeight = 0
-        zIndex = 0
         oldBounds = collectionView.bounds
 
         let sections = collectionView.numberOfSections
         for section in 0..<sections {
             let itemCount = collectionView.numberOfItems(inSection: section)
+            let layoutDelegate = collectionView.delegate as? UICollectionViewDelegateLayoutAttribute
 
             if let flowDelegateLayout = collectionView.delegate as? UICollectionViewDelegateFlowLayout,
                 let headerSize = flowDelegateLayout.collectionView?(collectionView, layout: self, referenceSizeForHeaderInSection: section) {
 
-                let headerAttributes = CustomLayoutAttributes(
-                    forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-                    with: IndexPath(item: 0, section: section)
-                )
-                print("headerSize: \(headerSize)")
+                let kind = UICollectionView.elementKindSectionHeader
+                let indexPath = IndexPath(item: 0, section: section)
+                let headerAttributes = layoutDelegate?.collectionView?(
+                    collectionView,
+                    kind: kind,
+                    forSupplementary: indexPath
+                ) ?? UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: kind, with: indexPath)
+
                 prepareHeaderFooterElement(size: headerSize, kind: UICollectionView.elementKindSectionHeader, attributes: headerAttributes)
             }
             for item in 0..<itemCount {
@@ -121,8 +108,18 @@ extension CustomLayout {
                 }
 
                 let cellIndexPath = IndexPath(item: item, section: section)
-                let attributes = CustomLayoutAttributes(forCellWith: cellIndexPath)
+                let cellAttributes = layoutDelegate?.collectionView(
+                    collectionView,
+                    forItemAt: cellIndexPath
+                ) ?? UICollectionViewLayoutAttributes(forCellWith: cellIndexPath)
+
                 let lineInterSpace = self.minimumLineSpacing
+                let attributes = cellAttributes
+
+                if let cellAttributes = cellAttributes as? StickyLayoutAttributes {
+                    cellAttributes.initialOrigin = CGPoint(x: 0, y: contentHeight - itemSize.height)
+                    cellAttributes.zIndex = 1
+                }
                 attributes.frame = CGRect(
                     x: 0 + self.minimumInteritemSpacing,
                     y: contentHeight + lineInterSpace,
@@ -137,29 +134,25 @@ extension CustomLayout {
 
     private func prepareCache() {
         cache.removeAll(keepingCapacity: true)
-        cache[.sectionHeader] = [IndexPath: CustomLayoutAttributes]()
-        cache[.sectionFooter] = [IndexPath: CustomLayoutAttributes]()
-        cache[.cell] = [IndexPath: CustomLayoutAttributes]()
+        cache[.sectionHeader] = [IndexPath: UICollectionViewLayoutAttributes]()
+        cache[.sectionFooter] = [IndexPath: UICollectionViewLayoutAttributes]()
+        cache[.cell] = [IndexPath: UICollectionViewLayoutAttributes]()
     }
-    private func prepareHeaderFooterElement(size: CGSize, kind: String, attributes: CustomLayoutAttributes) {
+    private func prepareHeaderFooterElement(size: CGSize, kind: String, attributes: UICollectionViewLayoutAttributes) {
         guard size != .zero else { return }
 
-        attributes.initialOrigin = CGPoint(x: 0, y: contentHeight)
-        attributes.frame = CGRect(origin: attributes.initialOrigin, size: size)
-
-        attributes.zIndex = zIndex
-        zIndex += 1
-
-        contentHeight = attributes.frame.maxY
         switch kind {
         case UICollectionView.elementKindSectionHeader:
+            guard let alphaAttr = attributes as? OverlayAlphaLayoutAttributes else { return }
+            alphaAttr.initialOrigin = CGPoint(x: 0, y: contentHeight)
+            attributes.frame = CGRect(origin: alphaAttr.initialOrigin, size: size)
+            attributes.zIndex = 1
+            contentHeight = attributes.frame.maxY
             cache[.sectionHeader]?[attributes.indexPath] = attributes
-        case UICollectionView.elementKindSectionFooter:
-            cache[.sectionFooter]?[attributes.indexPath] = attributes
-        default:
-            break
+        default: break
         }
     }
+    
 }
 
 //MARK: - PROVIDING ATTRIBUTES TO THE COLLECTIONVIEW
@@ -185,17 +178,17 @@ extension CustomLayout {
     override public func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         return cache[.cell]?[indexPath]
     }
-
+    
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         guard let collectionView = collectionView else { return nil }
         visibleLayoutAttributes.removeAll(keepingCapacity: true)
 
-        for (type, elementInfos) in cache {
+
+        for (_, elementInfos) in cache {
             for (indexPath, attributes) in elementInfos {
-                attributes.parallax = .identity
                 attributes.transform = .identity
 
-                updateSupplementaryViews(type, attributes: attributes, collectionView: collectionView, indexPath: indexPath)
+                updateAttributes(collectionView: collectionView, attributes: attributes, indexPath: indexPath)
                 if attributes.frame.intersects(rect) {
                     visibleLayoutAttributes.append(attributes)
                 }
@@ -204,21 +197,22 @@ extension CustomLayout {
         return visibleLayoutAttributes
     }
 
-    private func updateSupplementaryViews(_ type: Element, attributes: CustomLayoutAttributes, collectionView: UICollectionView, indexPath: IndexPath) {
-        switch type {
-        case .sectionHeader:
+    private func updateAttributes(collectionView: UICollectionView, attributes: UICollectionViewLayoutAttributes, indexPath: IndexPath) {
+        switch attributes {
+        case is OverlayAlphaLayoutAttributes:
+            let attributes = attributes as! OverlayAlphaLayoutAttributes
             let headerSize = attributes.frame.size
-            let updatedHeight = min(
-                collectionView.frame.height,
-                max(headerSize.height, headerSize.height - contentOffset.y))
-
-            let scaleFactor = updatedHeight / headerSize.height
-            let delta = (updatedHeight - headerSize.height) / 2
-            let scale = CGAffineTransform(scaleX: scaleFactor, y: scaleFactor)
-            let translation = CGAffineTransform(translationX: 0, y: min(contentOffset.y, headerSize.height) + delta)
-            attributes.transform = scale.concatenating(translation)
-            attributes.headerOverlayAlpha = max(0,  1 - (contentOffset.y / headerSize.height))
-        default: break
+            let alphaVelocity: CGFloat = 1.4
+            attributes.transform = CGAffineTransform(translationX: 0, y: max(attributes.initialOrigin.y, contentOffset.y))
+            attributes.headerOverlayAlpha = max(0, 1 - (contentOffset.y / headerSize.height) * alphaVelocity)
+        case is StickyLayoutAttributes:
+            let attributes = attributes as! StickyLayoutAttributes
+            let cellHeight = attributes.frame.height
+            stickyOffset = max(attributes.initialOrigin.y, contentOffset.y) - cellHeight
+            attributes.transform = CGAffineTransform(translationX: 0, y: stickyOffset)
+            attributes.zIndex = attributes.zIndex
+        default:
+            attributes.transform = CGAffineTransform(translationX: 0, y: stickyOffset)
         }
     }
 }

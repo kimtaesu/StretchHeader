@@ -44,5 +44,4 @@ class DayOfWeekWeatherView: UIView, NibLoadable {
         container.backgroundColor = .clear
         stackView.backgroundColor = .clear
     }
-
 }
